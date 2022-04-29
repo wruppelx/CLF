@@ -102,7 +102,7 @@
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
                 <xs:sequence>
-                    <xs:element name="ExponentParamsType" type="clf:ExponentParamsType" minOccurs="0" maxOccurs="3"/>
+                    <xs:element name="ExponentParams" type="clf:ExponentParamsType" minOccurs="0" maxOccurs="3"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -121,7 +121,7 @@
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
                 <xs:sequence>
-                    <xs:element name="LogParamsType" type="clf:LogParamsType" minOccurs="0" maxOccurs="3"/>
+                    <xs:element name="LogParams" type="clf:LogParamsType" minOccurs="0" maxOccurs="3"/>
                 </xs:sequence>                
                 <xs:attribute name="style" type="xs:string" use="required"/>
             </xs:extension>
@@ -147,8 +147,8 @@
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
                 <xs:sequence>
-                    <xs:element name="SOPNodeType" type="clf:SOPNodeType" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="SatNodeType" type="clf:SatNodeType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="SOPNode" type="clf:SOPNodeType" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="SatNode" type="clf:SatNodeType" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>                
                 <xs:attribute name="style" type="xs:string" use="required"/>
             </xs:extension>
