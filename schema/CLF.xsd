@@ -30,7 +30,7 @@
         <xs:sequence>
             <xs:element name="AppRelease" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="Copyright" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="Revision" type="xs:string" minOccurs="0" maxOccurs="1"/>            
+            <xs:element name="Revision" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="ACEStransformID" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="ACESuserName" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="clf:CalibrationInfo" minOccurs="0" maxOccurs="1"/>
@@ -48,7 +48,8 @@
             <xs:element name="CalibrationDateTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="MeasurementProbe" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="CalibrationSoftwareName" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="CalibrationSoftwareVersion" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="CalibrationSoftwareVersion" type="xs:string" minOccurs="0"
+                maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
     
@@ -74,9 +75,9 @@
                 <xs:sequence>
                     <xs:element name="Array" type="clf:ArrayType" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="interpolation" type="xs:string" use="optional" fixed="linear"/>
-                <xs:attribute name="rawHalfs" type="xs:string" use="optional"/>
-                <xs:attribute name="halfDomain" type="xs:string" use="optional"/>
+                <xs:attribute name="interpolation" use="optional" fixed="linear" type="xs:string"> </xs:attribute>
+                <xs:attribute name="rawHalfs" type="xs:string" use="optional" fixed="true"/>
+                <xs:attribute name="halfDomain" type="xs:string" use="optional" fixed="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -90,7 +91,14 @@
                 <xs:sequence>
                     <xs:element name="Array" type="clf:ArrayType" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="interpolation" type="xs:string" use="optional"/>
+                <xs:attribute name="interpolation" use="optional" default="trilinear">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="trilinear"/>
+                            <xs:enumeration value="tetrahedral"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -102,18 +110,42 @@
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
                 <xs:sequence>
-                    <xs:element name="ExponentParams" type="clf:ExponentParamsType" minOccurs="0" maxOccurs="3"/>
+                    <xs:element name="ExponentParams" type="clf:ExponentParamsType" minOccurs="0"
+                        maxOccurs="3"/>
                 </xs:sequence>
+                <xs:attribute name="style" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="basicFwd"/>
+                            <xs:enumeration value="basicRev"/>
+                            <xs:enumeration value="basicMirrorFwd"/>
+                            <xs:enumeration value="basicMirrorRev"/>
+                            <xs:enumeration value="basicPassThruFwd"/>
+                            <xs:enumeration value="basicPassThruRev"/>
+                            <xs:enumeration value="monCurveFwd"/>
+                            <xs:enumeration value="monCurveRev"/>
+                            <xs:enumeration value="monCurveMirrorFwd"/>
+                            <xs:enumeration value="monCurveMirrorRev"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
     
     <xs:complexType name="ExponentParamsType">
-        <xs:attribute name="exponent" type="xs:float" use="optional" default="1.0"/>
-        <xs:attribute name="offset" type="xs:float" use="optional" default="0.0"/>
+        <xs:attribute name="exponent" type="xs:float" use="required"/>
+        <xs:attribute name="offset" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:float">
+                    <xs:minInclusive value="0."/>
+                    <xs:maxInclusive value="0.9"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
         <xs:attribute name="channel" type="clf:channelType" use="optional"/>
     </xs:complexType>
-
+    
     <!--  ProcessNode: Log definition  -->
     <xs:element name="Log" type="clf:LogType" substitutionGroup="clf:ProcessNode"/>
     
@@ -121,13 +153,27 @@
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
                 <xs:sequence>
-                    <xs:element name="LogParams" type="clf:LogParamsType" minOccurs="0" maxOccurs="3"/>
-                </xs:sequence>                
-                <xs:attribute name="style" type="xs:string" use="required"/>
+                    <xs:element name="LogParams" type="clf:LogParamsType" minOccurs="0"
+                        maxOccurs="3"/>
+                </xs:sequence>
+                <xs:attribute name="style" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="log10"/>
+                            <xs:enumeration value="antiLog10"/>
+                            <xs:enumeration value="log2"/>
+                            <xs:enumeration value="antiLog2"/>
+                            <xs:enumeration value="linToLog"/>
+                            <xs:enumeration value="logToLin"/>
+                            <xs:enumeration value="cameraLinToLog"/>
+                            <xs:enumeration value="cameraLogToLin"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
-        </xs:complexContent>        
+        </xs:complexContent>
     </xs:complexType>
-
+    
     <xs:complexType name="LogParamsType">
         <xs:attribute name="base" type="xs:float" use="optional" default="10"/>
         <xs:attribute name="logSideSlope" type="xs:float" use="optional" default="1.0"/>
@@ -139,7 +185,7 @@
         <xs:attribute name="linearOffset" type="xs:float" use="optional"/>
         <xs:attribute name="channel" type="clf:channelType" use="optional"/>
     </xs:complexType>
-
+    
     <!--  ProcessNode: ASC-CDL definition  -->
     <xs:element name="ASC_CDL" type="clf:ASC_CDLType" substitutionGroup="clf:ProcessNode"/>
     
@@ -149,23 +195,36 @@
                 <xs:sequence>
                     <xs:element name="SOPNode" type="clf:SOPNodeType" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="SatNode" type="clf:SatNodeType" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>                
-                <xs:attribute name="style" type="xs:string" use="required"/>
+                </xs:sequence>
+                <xs:attribute name="style" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Fwd"/>
+                            <xs:enumeration value="Rev"/>
+                            <xs:enumeration value="FwdNoClamp"/>
+                            <xs:enumeration value="RevNoClamp"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
-        </xs:complexContent>        
+        </xs:complexContent>
     </xs:complexType>
     
     <xs:complexType name="SOPNodeType">
         <xs:sequence>
-            <xs:element name="Slope" type="clf:floatListType" minOccurs="0" maxOccurs="1" default="1.0 1.0 1.0"/>
-            <xs:element name="Offset" type="clf:floatListType" minOccurs="0" maxOccurs="1" default="0.0 0.0 0.0"/>
-            <xs:element name="Power" type="clf:floatListType" minOccurs="0" maxOccurs="1" default="1.0 1.0 1.0"/>
+            <xs:element name="Slope" type="clf:floatListType" minOccurs="0" maxOccurs="1"
+                default="1.0 1.0 1.0"/>
+            <xs:element name="Offset" type="clf:floatListType" minOccurs="0" maxOccurs="1"
+                default="0.0 0.0 0.0"/>
+            <xs:element name="Power" type="clf:floatListType" minOccurs="0" maxOccurs="1"
+                default="1.0 1.0 1.0"/>
         </xs:sequence>
     </xs:complexType>
-
+    
     <xs:complexType name="SatNodeType">
         <xs:sequence>
-            <xs:element name="Saturation" type="xs:float" minOccurs="0" maxOccurs="1" default="1.0"/>
+            <xs:element name="Saturation" type="xs:float" minOccurs="0" maxOccurs="1" default="1.0"
+            />
         </xs:sequence>
     </xs:complexType>
     
@@ -181,7 +240,14 @@
                     <xs:element name="minValueOut" type="xs:float" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="maxValueOut" type="xs:float" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="style" type="xs:string" use="optional" default="Clamp"/>
+                <xs:attribute name="style" use="optional" default="Clamp">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Clamp"/>
+                            <xs:enumeration value="noClamp"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -193,7 +259,8 @@
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
                 <xs:sequence>
-                    <xs:element name="Array" type="clf:ArrayType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="Array" type="clf:MatrixArrayType" minOccurs="1" maxOccurs="1"
+                    />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -202,18 +269,33 @@
     <xs:complexType name="ArrayType">
         <xs:simpleContent>
             <xs:extension base="clf:floatListType">
-                <xs:attribute name="dim" type="clf:dimType" use="optional"/>
+                <xs:attribute name="dim" type="clf:dimType" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
-        
+    
+    <xs:complexType name="MatrixArrayType">
+        <xs:simpleContent>
+            <xs:extension base="clf:floatListType">
+                <xs:attribute name="dim" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="clf:dimType">
+                            <xs:enumeration value="3 3"/>
+                            <xs:enumeration value="3 4"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
     <xs:simpleType name="floatListType">
         <xs:list itemType="xs:float"/>
     </xs:simpleType>
     
     <xs:simpleType name="dimType">
-        <xs:restriction base="clf:positiveIntegerListType">
-            <xs:minLength value="1"/>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:pattern value="[\d\s]*\d"/>
         </xs:restriction>
     </xs:simpleType>
     
@@ -223,14 +305,19 @@
     
     <xs:simpleType name="bitDepthType">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]+[fi]"/>
+            <xs:enumeration value="8i"/>
+            <xs:enumeration value="10i"/>
+            <xs:enumeration value="12i"/>
+            <xs:enumeration value="16i"/>
+            <xs:enumeration value="16f"/>
+            <xs:enumeration value="32f"/>
         </xs:restriction>
     </xs:simpleType>
-
+    
     <xs:simpleType name="channelType">
         <xs:restriction base="xs:string">
             <xs:pattern value="[RGB]"/>
         </xs:restriction>
     </xs:simpleType>
-        
+    
 </xs:schema>
