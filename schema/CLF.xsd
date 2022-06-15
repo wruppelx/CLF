@@ -196,7 +196,7 @@
                     <xs:element name="SOPNode" type="clf:SOPNodeType" minOccurs="0" maxOccurs="1"/>
                     <xs:element name="SatNode" type="clf:SatNodeType" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="style" use="required">
+                <xs:attribute name="style" default="Fwd">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="Fwd"/>
@@ -234,12 +234,12 @@
     <xs:complexType name="RangeType">
         <xs:complexContent>
             <xs:extension base="clf:ProcessNodeType">
-                <xs:sequence>
-                    <xs:element name="minValueIn" type="xs:float" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="maxValueIn" type="xs:float" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="minValueOut" type="xs:float" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="maxValueOut" type="xs:float" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>
+				<xs:sequence>
+					<xs:element name="minInValue" type="xs:float" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="maxInValue" type="xs:float" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="minOutValue" type="xs:float" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="maxOutValue" type="xs:float" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
                 <xs:attribute name="style" use="optional" default="Clamp">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -282,6 +282,8 @@
                         <xs:restriction base="clf:dimType">
                             <xs:enumeration value="3 3"/>
                             <xs:enumeration value="3 4"/>
+                            <xs:enumeration value="3 3 3"/>
+                            <xs:enumeration value="3 4 3"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
