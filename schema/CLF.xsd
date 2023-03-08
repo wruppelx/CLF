@@ -274,6 +274,18 @@
         <xs:simpleContent>
             <xs:extension base="clf:floatListType">
                 <xs:attribute name="dim" type="clf:dimType" use="required"/>
+                <!-- Test for number of elements in LUT1D and LUT3D -->
+                <xs:assert test="
+                (
+                count($value) = number(substring-before(@dim, ' ')) * 
+                                number(substring-before(substring-after(@dim, ' '), ' ')) * 
+                                number(substring-before(substring-after(substring-after(@dim, ' '), ' '), ' ')) *
+                                number(substring-after(substring-after(substring-after(@dim, ' '), ' '), ' '))
+                ) or (
+                count($value) = number(substring-before(@dim, ' ')) * 
+                                number(substring-after(@dim, ' '))
+                )
+                "/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -291,12 +303,13 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:assert test="( 
-                (@dim = '3 3') and (count($value) = 9) or
-                (@dim = '3 4') and (count($value) = 12) or
-                (@dim = '3 3 3') and (count($value) = 27) or
-                (@dim = '3 4 3') and (count($value) = 36)
-                )"/>
+                <!-- Test for number of elements in matrices -->
+                <xs:assert test="
+                ((@dim = '3 3') and (count($value) = 9)) or
+                ((@dim = '3 4') and (count($value) = 12)) or
+                ((@dim = '3 3 3') and (count($value) = 27)) or
+                ((@dim = '3 4 3') and (count($value) = 36))
+                "/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
