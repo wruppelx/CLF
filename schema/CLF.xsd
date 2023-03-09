@@ -216,18 +216,18 @@
     
     <xs:complexType name="SOPNodeType">
         <xs:sequence>
-            <xs:element name="Slope" type="clf:floatListType" minOccurs="0" maxOccurs="1"
+            <xs:element name="Slope" type="clf:positiveFloatListLength3Type" minOccurs="1" maxOccurs="1"
                 default="1.0 1.0 1.0"/>
-            <xs:element name="Offset" type="clf:floatListType" minOccurs="0" maxOccurs="1"
+            <xs:element name="Offset" type="clf:floatListLength3Type" minOccurs="1" maxOccurs="1"
                 default="0.0 0.0 0.0"/>
-            <xs:element name="Power" type="clf:floatListType" minOccurs="0" maxOccurs="1"
+            <xs:element name="Power" type="clf:positiveFloatListLength3Type" minOccurs="1" maxOccurs="1"
                 default="1.0 1.0 1.0"/>
         </xs:sequence>
     </xs:complexType>
     
     <xs:complexType name="SatNodeType">
         <xs:sequence>
-            <xs:element name="Saturation" type="xs:float" minOccurs="0" maxOccurs="1" default="1.0"
+            <xs:element name="Saturation" type="clf:positiveFloatType" minOccurs="0" maxOccurs="1" default="1.0"
             />
         </xs:sequence>
     </xs:complexType>
@@ -298,6 +298,30 @@
         <xs:list itemType="xs:float"/>
     </xs:simpleType>
     
+    <xs:simpleType name="positiveFloatType">
+        <xs:restriction base="xs:float">
+            <xs:minExclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positiveFloatListLength3Type">
+        <xs:restriction>
+            <xs:simpleType>
+                <xs:list itemType="clf:positiveFloatType"/>
+            </xs:simpleType>
+            <xs:length value="3"/>
+        </xs:restriction>
+     </xs:simpleType>
+
+    <xs:simpleType name="floatListLength3Type">
+        <xs:restriction>
+            <xs:simpleType>
+                <xs:list itemType="xs:float"/>
+            </xs:simpleType>
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="dimType">
         <xs:restriction base="xs:string">
             <xs:minLength value="3"/>
