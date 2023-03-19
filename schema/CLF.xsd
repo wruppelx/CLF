@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:clf="urn:AMPAS:clf:v3.0" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" targetNamespace="urn:AMPAS:clf:v3.0" vc:minVersion="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="urn:AMPAS:clf:v3.0"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:clf="urn:AMPAS:clf:v3.0"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+    vc:minVersion="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
     <!--  Process List definition  -->
     <xs:element name="ProcessList" type="clf:ProcessListType"/>
@@ -277,6 +281,8 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
+
+    <!--  Type definitions  -->
     <xs:simpleType name="floatListType">
         <xs:list itemType="xs:float"/>
     </xs:simpleType>
