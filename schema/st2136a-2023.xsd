@@ -14,26 +14,26 @@
     <xs:complexType name="ProcessListType">
         <xs:sequence>
             <xs:element name="Id" type="dcml:UUIDType"/>
-            <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="InputDescriptor" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="OutputDescriptor" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="Description" type="dcml:UserTextType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="InputDescriptor" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="OutputDescriptor" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="clf:Info" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="clf:ProcessNode" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="compCLFversion" type="xs:string" use="required"/>
         <xs:attribute name="name" type="xs:string" use="optional"/>
-        <xs:attribute name="inverseOf" type="xs:string" use="optional"/>
+        <xs:attribute name="inverseOf" type="dcml:UUIDType" use="optional"/>
     </xs:complexType>
 
     <!--  Info element definition  -->
     <xs:element name="Info" type="clf:InfoType"/>
     <xs:complexType name="InfoType">
         <xs:sequence>
-            <xs:element name="AppRelease" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="Copyright" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="Revision" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="ACEStransformID" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="ACESuserName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="AppRelease" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="Copyright" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="Revision" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ACEStransformID" type="clf:URNType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ACESuserName" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="clf:CalibrationInfo" minOccurs="0" maxOccurs="1"/>
             <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
         </xs:sequence>
@@ -44,13 +44,13 @@
     <xs:element name="CalibrationInfo" type="clf:CalibrationInfoType"/>
     <xs:complexType name="CalibrationInfoType">
         <xs:sequence>
-            <xs:element name="DisplayDeviceSerialNum" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="DisplayDeviceHostName" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="OperatorName" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="CalibrationDateTime" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="MeasurementProbe" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="CalibrationSoftwareName" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="CalibrationSoftwareVersion" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="DisplayDeviceSerialNum" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="DisplayDeviceHostName" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="OperatorName" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="CalibrationDateTime" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="MeasurementProbe" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="CalibrationSoftwareName" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="CalibrationSoftwareVersion" type="dcml:UserTextType" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -59,7 +59,7 @@
     <xs:complexType name="ProcessNodeType" abstract="true">
         <xs:sequence>
             <xs:element name="Id" type="dcml:UUIDType"/>
-            <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Description" type="dcml:UserTextType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="optional"/>
         <xs:attribute name="inBitDepth" type="clf:bitDepthType" use="required"/>
@@ -335,4 +335,10 @@
             <xs:pattern value="[RGB]"/>
         </xs:restriction>
     </xs:simpleType>
+<!-- UUID Type -->
+<xs:simpleType name="URNType">
+   <xs:restriction base="xs:anyURI">
+      <xs:pattern value="urn:[A-Za-z0-9][A-Za-z0-9-]{0,31}:([A-Za-z0-9()+,\-.:=@;$_!*']|%[0-9A-Fa-f]{2})"/>
+   </xs:restriction>
+</xs:simpleType>
 </xs:schema>
